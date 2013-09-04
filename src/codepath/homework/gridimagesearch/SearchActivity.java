@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -50,6 +51,7 @@ public class SearchActivity extends Activity {
 			
 		});
 		
+		
 	}
 
 	@Override
@@ -87,6 +89,11 @@ public class SearchActivity extends Activity {
 				}
 			}
 		});
+	}
+	
+	public void onSearchSettings(MenuItem mi) {
+		Intent i = new Intent(this, SettingsActivity.class);
+		startActivity(i);
 	}
 
 }
