@@ -8,8 +8,10 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,12 +32,15 @@ public class SearchActivity extends Activity {
 	Button btnSearch;
 	ArrayList<ImageResult> imageResults = new ArrayList<ImageResult>();
 	ImageResultArrayAdapter imageAdapter;
+	SharedPreferences pref;  
+		  
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
 		setupViews();
+		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		imageAdapter = new ImageResultArrayAdapter(this, imageResults);
 		gvResults.setAdapter(imageAdapter);
 		gvResults.setOnItemClickListener(new OnItemClickListener() {
@@ -70,11 +75,19 @@ public class SearchActivity extends Activity {
 	public void onImageSearch(View v) {
 		String query = etQuery.getText().toString();
 		Toast.makeText(this, "Searching for " + query, Toast.LENGTH_SHORT).show();
+		String imageSize = pref.getString("imageSize", "");
+		String imageType = pref.getString("imageType", "");
+		String colorFilter = pref.getString("colorFilter", "");
+		String siteFilter = Uri.encode(pref.getString("siteFilter", ""));
+		Log.d("DEBUG", "img size is " + pref.getString("imageSize", ""));
+		Log.d("DEBUG", "sitefilter is " + pref.getString("siteFilter", ""));
 		
 		AsyncHttpClient client = new AsyncHttpClient();
 		//https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=hadiyah
 		client.get("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&rsz=8&start" +
-		            0 + "&q=" + Uri.encode(query),
+		            0 + "&q=" + Uri.encode(query) + "&imgsx=" + imageSize + "&imgcolor=" +
+				    colorFilter + "&imgtype=" + imageType + "&as_sitesearch=" +
+		            siteFilter,
 		           new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject response) {
@@ -83,7 +96,6 @@ public class SearchActivity extends Activity {
 					imageJsonResults = response.getJSONObject("responseData").getJSONArray("results");
 					imageResults.clear();
 					imageAdapter.addAll(ImageResult.fromJSONArray(imageJsonResults));
-					Log.d("DEBUG", imageResults.toString());
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -95,5 +107,6 @@ public class SearchActivity extends Activity {
 		Intent i = new Intent(this, SettingsActivity.class);
 		startActivity(i);
 	}
+	
 
 }
