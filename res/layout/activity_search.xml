@@ -8,31 +8,68 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".SearchActivity" >
 
-    <EditText
-        android:id="@+id/etQuery"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:hint="@string/query_hint" />
-
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="Search"
-        android:onClick="onImageSearch" />
+        android:orientation="vertical" >
 
-    <GridView
-        android:id="@+id/gvResults"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btnSearch"
-        android:numColumns="3" >
-    </GridView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/etQuery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/query_hint" />
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:onClick="onImageSearch"
+                android:text="Search" />
+
+        </RelativeLayout>
+
+        <GridView
+            android:id="@+id/gvResults"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:numColumns="3" >
+        </GridView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llFooter"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#1B63E0"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:clickable="true"
+        android:onClick="onLoadMore" >
+
+        <TextView
+            android:id="@+id/tvLoadMore"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Load More"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffff"
+            android:color="#ffffff" />
+
+    </LinearLayout>
 
 </RelativeLayout>
